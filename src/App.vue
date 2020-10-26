@@ -11,16 +11,23 @@
       </div>
     </div>
     <router-view />
+    <div id="footer">
+      <footer></footer>
+    </div>
   </div>
 </template>
 
-<style>
+<style lang="scss">
+@import '~bootstrap/scss/bootstrap';
+$theme-colors: (
+  'primary': #42b983
+);
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
-  user-select: none;
 }
 
 #header {
@@ -42,5 +49,9 @@
 
 #nav a.router-link-exact-active {
   color: #42b983;
+}
+
+#footer {
+  height: 10px;
 }
 </style>

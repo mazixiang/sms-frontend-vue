@@ -1,12 +1,6 @@
 <template>
-  <div>
-    <b-container>
-      <StaffForm
-        :form-data="formData"
-        :show-reset-button="true"
-        @submit-staff="submitInsert"
-      ></StaffForm>
-    </b-container>
+  <div class="container">
+    <StaffForm :form-data="formData" @submit-staff="submitInsert"></StaffForm>
   </div>
 </template>
 
@@ -25,7 +19,7 @@ export default {
         name: '',
         password: '',
         gender: 'male',
-        age: '',
+        age: null,
         contactInfo: '',
         hobbies: [],
         department: 'market'
@@ -38,6 +32,7 @@ export default {
       Object.assign(submitData, this.formData);
       delete submitData.hobbies;
       submitData.hobbies = this.hobbiesString;
+      console.log(submitData.hobbies);
       await axios
         .post(
           `${globalVariant.baseUrl}/${globalVariant.paths.updateStaff}`,
@@ -49,13 +44,12 @@ export default {
           }
         )
         .then(response => {
+          this.$router.push('/list');
           console.log(response);
         })
         .catch(() => {
           this.$router.push('/serverError');
         });
-
-      await this.$router.push('/list');
     }
   },
   computed: {

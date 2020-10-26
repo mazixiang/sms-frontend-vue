@@ -1,13 +1,11 @@
 <template>
-  <div>
-    <b-container fluid>
-      <StaffTable
-        :staff-arr="staffArr"
-        @deleteStaff="deleteStaff($event)"
-        @updateStaff="updateStaff($event)"
-      ></StaffTable>
-      <b-button variant="outline-primary" @click="refreshTable">fresh</b-button>
-    </b-container>
+  <div class="container-fluid">
+    <StaffTable
+      :staff-arr="staffArr"
+      @update-staff="updateStaff($event)"
+      @delete-staff="deleteStaff($event)"
+      @refresh-table="refreshTable"
+    ></StaffTable>
   </div>
 </template>
 
@@ -40,7 +38,7 @@ export default {
           this.$router.push('/serverError');
         });
 
-      this.staffArr = staffArrTemp;
+      this.staffArr = staffArrTemp.slice();
     },
     deleteStaff: async function(id) {
       await axios
@@ -77,7 +75,6 @@ export default {
 
       if (updateResult) {
         targetStaffObject.hobbies = targetStaffObject.hobbies.split(',');
-        console.log(JSON.stringify(targetStaffObject));
         await this.$router.push({
           name: 'UpdateStaff',
           params: { targetStaffObject }

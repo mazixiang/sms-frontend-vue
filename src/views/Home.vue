@@ -1,5 +1,5 @@
 <template>
-  <b-container>
+  <div class="container">
     <div class="home">
       <p>
         Staff Management System is a system to manage staffs' information.<br />
@@ -8,7 +8,7 @@
         staffs.
       </p>
     </div>
-  </b-container>
+  </div>
 </template>
 
 <script>

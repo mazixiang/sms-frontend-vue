@@ -1,24 +1,18 @@
 <template>
-  <div>
-    <b-container>
-      <div v-if="enterFromOtherEntrance">
-        <b-alert show variant="danger">
-          <h1>Error</h1>
-          <hr />
-          <p>
-            You seem to be entering through some other entrance, enter from the
-            <router-link to="/list">table</router-link> please.
-          </p>
-        </b-alert>
+  <div class="container">
+    <div v-if="enterFromOtherEntrance">
+      <div class="alert alert-danger">
+        <h1>Error</h1>
+        <hr />
+        <p>
+          You seem to be entering through some other entrance, enter from the
+          <router-link to="/list">staff table</router-link> please.
+        </p>
       </div>
-      <div v-else>
-        <StaffForm
-          :form-data="formData"
-          :show-reset-button="false"
-          @submit-staff="submitUpdate"
-        ></StaffForm>
-      </div>
-    </b-container>
+    </div>
+    <div v-else>
+      <StaffForm :form-data="formData" @submit-staff="submitUpdate"></StaffForm>
+    </div>
   </div>
 </template>
 
@@ -49,14 +43,20 @@ export default {
       Object.assign(submitData, this.formData);
       delete submitData.hobbies;
       submitData.hobbies = this.hobbiesString;
+
       await axios
-        .post(`${globalVariant.baseUrl}/${globalVariant.urls.updateStaff}`, submitData, {
-          headers: {
-            'content-type': 'application/x-www-form-urlencoded'
+        .post(
+          `${globalVariant.baseUrl}/${globalVariant.paths.updateStaff}`,
+          submitData,
+          {
+            headers: {
+              'content-type': 'application/x-www-form-urlencoded'
+            }
           }
-        })
+        )
         .then(response => {
           console.log(response);
+          this.$router.push('/list');
         })
         .catch(() => {
           this.$router.push('/serverError');
