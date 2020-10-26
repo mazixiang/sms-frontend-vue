@@ -169,11 +169,14 @@ export default {
   },
   watch: {
     ageText: function(newText) {
+      this.ageText = newText.replace(/[^\d]/g, '');
       this.formData.age = parseInt(newText);
     }
   },
   created: function() {
-    this.ageText = this.formData.age.toString();
+    if (this.formData.age !== null) {
+      this.ageText = this.formData.age.toString();
+    }
   }
 };
 </script>
