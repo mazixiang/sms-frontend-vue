@@ -1,11 +1,5 @@
 <template>
-  <div
-    class="container"
-    @submit="
-      $event.preventDefault();
-      $emit('submit-staff');
-    "
-  >
+  <div class="container" @submit="validateForm($event)">
     <form>
       <div class="form-group" v-show="false">
         <label for="input-id">id</label>
@@ -166,6 +160,16 @@ export default {
       },
       ageText: ''
     };
+  },
+  methods: {
+    validateForm: function(event) {
+      event.preventDefault();
+      if (this.formData.age >= 150 || this.formData.age === 0) {
+        alert('Please enter the correct age!');
+      } else {
+        this.$emit('submit-staff');
+      }
+    }
   },
   watch: {
     ageText: function(newText) {
