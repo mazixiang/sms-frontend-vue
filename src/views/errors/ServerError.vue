@@ -1,16 +1,20 @@
 <template>
-  <b-container>
-    <b-alert show variant="danger">
-      <h1>Server Error</h1>
-      <hr />
-      <p>An error occurred! Please contact the administrator.</p>
-    </b-alert>
-  </b-container>
+  <div class="container">
+    <Notification
+      type="danger"
+      title="Server Error"
+      message="An error occured! Please contact the administrator"
+    ></Notification>
+  </div>
 </template>
 
 <script>
+import Notification from '@/components/Notification';
 export default {
-  name: 'ServerError'
+  name: 'ServerError',
+  components: {
+    Notification
+  }
 };
 </script>
 
