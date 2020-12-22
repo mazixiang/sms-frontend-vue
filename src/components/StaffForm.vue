@@ -52,7 +52,6 @@
                 :value="gender"
                 class="custom-control-input"
                 v-model="formData.gender"
-                required
               />
               <label
                 :for="`radio-gender-${gender}`"
@@ -67,10 +66,10 @@
       <div class="form-group">
         <label for="input-age">Age</label>
         <input
-          type="text"
+          type="number"
           id="input-age"
           class="form-control"
-          v-model="ageText"
+          v-model.number="formData.age"
           placeholder="Enter age here"
           required
         />
@@ -135,10 +134,20 @@
 export default {
   name: 'StaffForm',
   props: {
-    formData: Object
+    fatherFormData: Object,
   },
   data: function() {
     return {
+      formData: {
+        id: '',
+        name: '',
+        password: '',
+        gender: 'male',
+        age: '',
+        contactInfo: '',
+        hobbies: [],
+        department: 'market',
+      },
       options: {
         genders: ['male', 'female'],
         hobbies: [
@@ -149,16 +158,15 @@ export default {
           'cooking',
           'listening music',
           'photography',
-          'writing'
+          'writing',
         ],
         departments: [
           'market',
           'development',
           'customer-service',
-          'administrative'
-        ]
+          'administrative',
+        ],
       },
-      ageText: ''
     };
   },
   methods: {
@@ -169,18 +177,28 @@ export default {
       } else {
         this.$emit('submit-staff');
       }
-    }
+    },
   },
   watch: {
-    ageText: function(newText) {
-      this.ageText = newText.replace(/[^\d]/g, '');
-      this.formData.age = parseInt(newText);
-    }
+    fatherFormData: {
+      immediate: true,
+      handler(val) {
+        this.formData = val;
+      },
+    },
+    formData: function(newFormData) {
+      this.$emit('update:fatherFormData', newFormData);
+    },
   },
-  created: function() {
-    if (this.formData.age !== null) {
-      this.ageText = this.formData.age.toString();
-    }
-  }
 };
 </script>
+
+<style scoped>
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+input[type="number"]{
+  -moz-appearance: textfield;
+}
+</style>

@@ -11,15 +11,17 @@
       </div>
     </div>
     <div v-else>
-      <StaffForm :form-data="formData" @submit-staff="submitUpdate"></StaffForm>
+      <StaffForm
+        :father-form-data.sync="formData"
+        @submit-staff="submitUpdate"
+      ></StaffForm>
     </div>
   </div>
 </template>
 
 <script>
 import StaffForm from '@/components/StaffForm';
-import axios from 'axios';
-import globalVariant from '@/components/GlobalVariant';
+import { queryStaffById, updateStaff } from '@/api/staff';
 
 export default {
   name: 'UpdateStaff',
@@ -27,47 +29,29 @@ export default {
   data: function() {
     return {
       formData: {},
-      enterFromOtherEntrance: false
+      enterFromOtherEntrance: false,
     };
   },
-  created() {
-    if (this.$route.params.targetStaffObject === undefined) {
+  async created() {
+    if (this.$route.params.id === undefined) {
       this.enterFromOtherEntrance = true;
     } else {
-      this.formData = this.$route.params.targetStaffObject;
+      let id = this.$route.params.id;
+      await queryStaffById(id).then(target => {
+        this.formData = target;
+      });
     }
   },
   methods: {
     submitUpdate: async function() {
-      let submitData = {};
-      Object.assign(submitData, this.formData);
-      delete submitData.hobbies;
-      submitData.hobbies = this.hobbiesString;
-
-      await axios
-        .post(
-          `${globalVariant.baseUrl}/${globalVariant.paths.updateStaff}`,
-          submitData,
-          {
-            headers: {
-              'content-type': 'application/x-www-form-urlencoded'
-            }
-          }
-        )
-        .then(response => {
-          console.log(response);
-          this.$router.push('/list');
-        })
-        .catch(() => {
-          this.$router.push('/serverError');
-        });
-    }
+      await updateStaff(this.formData);
+    },
   },
   computed: {
     hobbiesString: function() {
       return this.formData.hobbies.toString();
-    }
-  }
+    },
+  },
 };
 </script>
 

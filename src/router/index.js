@@ -7,28 +7,28 @@ const routes = [
   {
     path: '/',
     name: 'Home',
-    component: () => import('../views/Home.vue')
+    component: () => import('@/views/Home.vue')
   },
   {
     path: '/add',
     name: 'AddStaff',
-    component: () => import('../views/AddStaff.vue')
+    component: () => import('@/views/AddStaff.vue')
   },
   {
     path: '/list',
     name: 'ListStaff',
-    component: () => import('../views/ListStaffs.vue')
+    component: () => import('@/views/ListStaffs.vue')
   },
   {
     path: '/update',
     name: 'UpdateStaff',
-    component: () => import('../views/UpdateStaff.vue'),
+    component: () => import('@/views/UpdateStaff.vue'),
     props: true
   },
   {
     path: '/serverError',
     name: 'serverError',
-    component: () => import('../views/errors/ServerError')
+    component: () => import('@/views/errors/ServerError')
   }
 ];
 
